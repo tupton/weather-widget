@@ -1,0 +1,6 @@
+[forecastio]
+api_key = your_forecastio_api_key
+
+[googlegeocode]
+api_key = your_google_geocode_api_key
+
