@@ -1,14 +1,16 @@
-apiKey   = '<api-key>'        # put your forcast.io api key here
-location = '52.3833,-4.9000'  # enter your coordinates as LATITUDE,LONGITUDE here
+# You can manually enter a location here and it will be used if whereami is not installed in /usr/local/bin/whereami
+latitude = 30.269417
+longitude = -97.735997
 
-exclude  = "minutely,hourly,alerts,flags"
-
-command: "curl -s 'https://api.forecast.io/forecast/#{apiKey}/#{location}?units=auto&exclude=#{exclude}'"
+command: """weather.widget/fetch-forecast.py --geocode -- \
+    $(which /usr/local/bin/whereami > /dev/null && /usr/local/bin/whereami | /usr/local/bin/awk -vORS=' ' 'NR > 2 { exit }; { print $2 }' || \
+    echo "#{latitude} #{longitude}")"""
 
 refreshFrequency: 600000
 
 render: (o) -> """
   <div class='today'>
+    <div class='location'></div>
     <div class='date'></div>
     <div class='icon'></div>
     <div class='temp'></div>
@@ -18,11 +20,14 @@ render: (o) -> """
 """
 
 update: (output, domEl) ->
-  data  = JSON.parse(output)
+  console.log output
+  data = JSON.parse(output)
   today = data.daily.data[0]
-  date  = @getDate today.time
+  date = @getDate today.time
+
   $domEl = $(domEl)
 
+  $domEl.find('.location').text data.formatted_location
   $domEl.find('.date').text @dayMapping[date.getDay()]
   $domEl.find('.temp').html """
     <span class='hi'>#{Math.round(today.temperatureMax)}°</span> /
@@ -71,13 +76,13 @@ style: """
     line-height: 70px
     position: absolute
     left: 0
-    top: 0
+    top: 10px;
     vertical-align: middle
 
-  .temp, .date
+  .temp, .date, .location
     padding-left: 90px
 
-  .date
+  .date, .location
     font-size: 11px
     margin-bottom: 5px
 
