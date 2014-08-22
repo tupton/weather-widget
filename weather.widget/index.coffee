@@ -18,7 +18,10 @@ render: (o) -> """
     <div class='date'></div>
     <div class='icon'></div>
     <div class='temp'></div>
-    <div class='summary'></div>
+    <div class='summary'>
+        <div class='currently'></div>
+        <div class='conditions'></div>
+    </div>
   </div>
   <div class='forecast'></div>
 """
@@ -27,6 +30,7 @@ update: (output, domEl) ->
   console.log output
   data = JSON.parse(output)
   today = data.daily.data[0]
+  currently = data.currently
   date = @getDate today.time
 
   $domEl = $(domEl)
@@ -38,8 +42,9 @@ update: (output, domEl) ->
     <span class='lo'>#{Math.round(today.temperatureMin)}°</span>
   """
 
-  $domEl.find('.summary').text today.summary
-  $domEl.find('.icon')[0].innerHTML = @getIcon(today)
+  $domEl.find('.currently').text Math.round(currently.temperature) + '°, feels like ' + Math.round(currently.apparentTemperature) + '°'
+  $domEl.find('.conditions').text currently.summary
+  $domEl.find('.icon')[0].innerHTML = @getIcon(currently)
 
   forecastEl = $domEl.find('.forecast').html('')
   for day in data.daily.data[1..5]
