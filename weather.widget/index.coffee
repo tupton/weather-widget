@@ -1,12 +1,16 @@
-# You can manually enter a location here and it will be used if whereami is not installed in /usr/local/bin/whereami
-latitude = 30.269417
-longitude = -97.735997
+# Enter the location of the whereami script to determine your location
+# https://github.com/robmathers/WhereAmI
+whereami = "/usr/local/bin/whereami"
+
+# You can manually enter a location here and it will be used if whereami is not installed or cannot
+# find your location
+latitude = 30.2764099
+longitude = -97.7507724
 
 command: """weather.widget/fetch-forecast.py --geocode -- \
-    $(which /usr/local/bin/whereami > /dev/null && /usr/local/bin/whereami | /usr/local/bin/awk -vORS=' ' 'NR > 2 { exit }; { print $2 }' || \
-    echo "#{latitude} #{longitude}")"""
+    $(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude} #{longitude}")"""
 
-refreshFrequency: 600000
+refreshFrequency: 1800000
 
 render: (o) -> """
   <div class='today'>
