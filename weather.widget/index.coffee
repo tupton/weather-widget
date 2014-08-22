@@ -85,7 +85,7 @@ style: """
     line-height: 70px
     position: absolute
     left: 0
-    top: 10px;
+    top: 0;
     vertical-align: middle
 
   .temp, .date, .location
