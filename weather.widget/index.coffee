@@ -4,8 +4,8 @@ whereami = "/usr/local/bin/whereami"
 
 # You can manually enter a location here and it will be used if whereami is not installed or cannot
 # find your location
-latitude = 30.2764099
-longitude = -97.7507724
+latitude = 30.274409
+longitude = -97.740448
 
 command: """weather.widget/fetch-forecast.py --geocode -- \
     $(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude} #{longitude}")"""
