@@ -7,7 +7,6 @@ place name for the location and include it in the json response.
 
 from __future__ import print_function
 
-import os
 import argparse
 import ConfigParser
 import requests
@@ -45,19 +44,17 @@ def fetch_forecast(latitude, longitude, config, geocode=False):
     return forecast
 
 if __name__ == "__main__":
-    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument('latitude', help="The latitude of the location to fetch forecast for")
     parser.add_argument('longitude', help="The longitude of the location to fetch forecast for")
     parser.add_argument('--geocode', '-g', action='store_true', help="If provided, reverse geocode the given location and include it in the JSON forecast")
+    parser.add_argument('--config-file', '-c', default='weather.conf', help="The file to use for config options, including the forecast.io and Google geocode API keys.")
 
     args = parser.parse_args()
 
     config = ConfigParser.SafeConfigParser()
-    config_file = os.path.join(__location__, 'fetch-forecast.conf')
-    config.read(config_file)
+    config.read(args.config_file)
 
     response = fetch_forecast(args.latitude, args.longitude, config, geocode=args.geocode)
     print(json.dumps(response))
