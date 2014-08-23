@@ -13,18 +13,19 @@ command: """weather.widget/fetch-forecast.py --geocode -- \
 refreshFrequency: 1800000
 
 render: (o) -> """
-  <div class='today'>
-    <div class='location'></div>
-    <div class='date'></div>
-    <div class='icon'></div>
-    <div class='temp'></div>
-    <div class='summary'>
-        <div class='currently'></div>
-        <div class='conditions'></div>
+  <div class="today">
+    <div class="location"></div>
+    <div class="date"></div>
+    <div class="icon"></div>
+    <div class="temp"></div>
+    <div class="summary">
+        <div class="currently"></div>
+        <div class="conditions"></div>
     </div>
   </div>
-  <div class='forecast'></div>
-"""
+  <div class="forecast"></div>
+  <div class="updated"></div>
+  """
 
 update: (output, domEl) ->
   console.log output
@@ -50,6 +51,8 @@ update: (output, domEl) ->
   for day in data.daily.data[1..5]
     forecastEl.append @renderForecast(day)
 
+  $domEl.find('.updated').text 'Updated at ' + @formatTimestamp()
+
 renderForecast: (data) ->
   date = @getDate data.time
 
@@ -60,6 +63,14 @@ renderForecast: (data) ->
       <div class='day'>#{@dayMapping[date.getDay()][0..2]}</div>
     </div>
   """
+
+formatTimestamp: (date) ->
+  date = new Date() if not date
+
+  pad = (s) ->
+      ('0' + s).slice(-2)
+
+  [date.getHours(), pad(date.getMinutes()), pad(date.getSeconds())].join ':'
 
 style: """
   bottom: 20%
@@ -139,6 +150,11 @@ style: """
 
     .day
       font-size: 12px
+
+  .updated
+    text-align: right
+    font-size: 10px
+    margin-top: 10px
 """
 
 dayMapping:
