@@ -39,6 +39,11 @@ key, you can omit the `--geocode` option from the command in `index.coffee`.
 
 ## Credits
 
-Icons by [Erik Flowers][ef]
+Icons by [Erik Flowers][ef].
 
   [ef]: http://erikflowers.github.io/weather-icons/
+
+Based heavily on the [original widget][o] by [Felix Hageloh][fh].
+
+  [o]: https://github.com/felixhageloh/weather-widget
+  [fh]: http://tracesof.net/
