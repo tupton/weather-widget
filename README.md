@@ -1,4 +1,4 @@
-# Weather Forcast Widget
+# Weather Forecast Widget
 Made for [Übersicht][u]
 
   [u]: http://tracesof.net/uebersicht/
