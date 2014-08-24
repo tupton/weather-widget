@@ -7,8 +7,9 @@ whereami = "/usr/local/bin/whereami"
 latitude = 30.274409
 longitude = -97.740448
 
-command: """weather.widget/fetch-forecast.py --geocode --config-file="weather.widget/weather.conf" -- \
-    $(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude} #{longitude}")"""
+command: """weather.widget/fetch-forecast.py 2>/dev/null --reverse-geocode --config-file="weather.widget/weather.conf" \
+    --latlon="$(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude},#{longitude}")"
+"""
 
 refreshFrequency: 1800000
 

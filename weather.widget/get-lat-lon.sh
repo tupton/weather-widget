@@ -9,7 +9,7 @@ fi
 output=$(which $whereami > /dev/null && $whereami)
 
 if (( $? == 0 )); then
-    echo "$output" | /usr/local/bin/awk -vORS=' ' 'NR > 2 { exit }; { print $2 }'
+    echo "$output" | /usr/local/bin/awk -vORS=',' 'NR > 2 { exit }; { print $2 }' | sed 's/,$//'
 else
     ret=$?
     >&2 echo "Unable to determine latitude and longitude: $output"
