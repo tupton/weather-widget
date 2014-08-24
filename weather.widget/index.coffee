@@ -7,8 +7,18 @@ whereami = "/usr/local/bin/whereami"
 latitude = 30.274409
 longitude = -97.740448
 
-command: """weather.widget/fetch-forecast.py --geocode --config-file="weather.widget/weather.conf" -- \
-    $(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude} #{longitude}")"""
+# You can also provide a human-readable location that will be geocoded by the Google geocoding API
+# and used as the location to fetch forecast for. If you want to use this option, remove or comment
+# out the first command below and uncomment the second command below that.
+location = "Austin, TX"
+
+command: """weather.widget/fetch-forecast.py 2>/dev/null --reverse-geocode --config-file="weather.widget/weather.conf" \
+    --latlon="$(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude},#{longitude}")"
+"""
+# Remove or comment out the above command and unncomment this to fetch weather for a human-readable location
+#command: """weather.widget/fetch-forecast.py 2>/dev/null --config-file="weather.widget/weather.conf" \
+#    --location="#{location}"
+#"""
 
 refreshFrequency: 1800000
 
