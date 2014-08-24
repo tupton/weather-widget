@@ -56,7 +56,7 @@ def reverse_geocode(latitude, longitude, config):
     trimmed = ','.join(formatted.split(',')[:-2])
     return trimmed
 
-def fetch_forecast(latitude, longitude, config, reverse_geocode_location=False):
+def fetch_forecast(latitude, longitude, config, location=None, reverse_geocode_location=False):
     forecast_key = config.get('forecastio', 'api_key')
     forecast_url = "https://api.forecast.io/forecast/%(api_key)s/%(latitude)s,%(longitude)s" % {'api_key': forecast_key, 'latitude': latitude, 'longitude': longitude}
     forecast_params = {'units': 'auto', 'exclude': 'minutely,hourly,alerts,flags'}
@@ -65,19 +65,22 @@ def fetch_forecast(latitude, longitude, config, reverse_geocode_location=False):
     forecast = req.json()
 
     if reverse_geocode_location is True:
-        try:
-            location = reverse_geocode(latitude, longitude, config)
-        except GeocodeError:
-            location = ''
+        if location is None:
+            try:
+                location = reverse_geocode(latitude, longitude, config)
+            except GeocodeError:
+                pass # Ignore and used whatever location was passed
+        else:
+            print('Since a location was provided, the option to reverse geocode the location is ignored', file=sys.stderr)
 
-        forecast['formatted_location'] = location
+    forecast['formatted_location'] = location
 
     return forecast
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
 
-    parser.add_argument('--reverse-geocode', action='store_true', help="If provided, reverse geocode the given location and include it in the JSON forecast")
+    parser.add_argument('--reverse-geocode', action='store_true', help="If provided, reverse geocode the given location and include it in the JSON forecast. If you provide a human-readable location, this option is ignored and that location is used in the output.")
     parser.add_argument('--config-file', '-c', default='weather.conf', help="The file to use for config options, including the forecast.io and Google geocode API keys.")
 
     location_group = parser.add_mutually_exclusive_group(required=True)
@@ -105,5 +108,5 @@ if __name__ == "__main__":
             print('Error: %s' % (e,), file=sys.stderr)
             sys.exit(1)
 
-    response = fetch_forecast(lat, lon, config, reverse_geocode_location=args.reverse_geocode)
+    response = fetch_forecast(lat, lon, config, location=args.location, reverse_geocode_location=args.reverse_geocode)
     print(json.dumps(response))
