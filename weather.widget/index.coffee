@@ -25,6 +25,7 @@ update: (output, domEl) ->
   data = JSON.parse(output)
   today = data.daily.data[0]
   currently = data.currently
+  daily = data.daily
   date = @getDate today.time
 
   $domEl = $(domEl)
@@ -36,11 +37,13 @@ update: (output, domEl) ->
     <span class='lo'>#{Math.round(today.temperatureMin)}°</span>
   """
 
-  $domEl.find('.currently').text Math.round(currently.temperature) + '°, feels like ' + Math.round(currently.apparentTemperature) + '°'
-  $domEl.find('.conditions').text currently.summary
+  $domEl.find('.currently').text currently.summary + ' and ' + Math.round(currently.temperature) +
+    '°, feels like ' + Math.round(currently.apparentTemperature) + '°.'
+  $domEl.find('.conditions').text today.summary
   $domEl.find('.icon')[0].innerHTML = @getIcon(currently)
 
   forecastEl = $domEl.find('.forecast').html('')
+  forecastEl.append """<div class="outlook">#{daily.summary}</div>"""
   for day in data.daily.data[1..5]
     forecastEl.append @renderForecast(day)
 
@@ -54,6 +57,7 @@ renderForecast: (data) ->
       <div class='icon'>#{@getIcon data}</div>
       <div class='temp'>#{Math.round(data.temperatureMax)}°</div>
       <div class='day'>#{@dayMapping[date.getDay()][0..2]}</div>
+      <div class='temp'>#{Math.round(data.temperatureMin)}°</div>
     </div>
   """
 
@@ -120,6 +124,10 @@ style: """
     margin-top: 15px
     padding-top: 10px
     border-top: 1px solid #fff
+
+  .forecast .outlook
+    margin-bottom: 10px
+    font-size: 11px
 
   .forecast .entry
     display: inline-block
