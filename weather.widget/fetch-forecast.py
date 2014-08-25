@@ -73,7 +73,7 @@ def fetch_forecast(latitude, longitude, config, reverse_geocode_location=False):
         try:
             location = reverse_geocode(latitude, longitude, config)
         except GeocodeError as e:
-            print(e, file=sys.stderr)
+            print('Unable to reverse geocode location: %s, %s: %s' % (latitude, longitude, e), file=sys.stderr)
 
     forecast['formatted_location'] = location
 
