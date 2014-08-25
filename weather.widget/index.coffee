@@ -1,24 +1,7 @@
-# Enter the location of the whereami script to determine your location
-# https://github.com/robmathers/WhereAmI
-whereami = "/usr/local/bin/whereami"
-
-# You can manually enter a location here and it will be used if whereami is not installed or cannot
-# find your location
-latitude = 30.274409
-longitude = -97.740448
-
-# You can also provide a human-readable location that will be geocoded by the Google geocoding API
-# and used as the location to fetch forecast for. If you want to use this option, remove or comment
-# out the first command below and uncomment the second command below that.
-location = "Austin, TX"
-
-command: """weather.widget/fetch-forecast.py 2>/dev/null --reverse-geocode --config-file="weather.widget/weather.conf" \
-    --latlon="$(weather.widget/get-lat-lon.sh #{whereami} 2>/dev/null || echo "#{latitude},#{longitude}")"
-"""
-# Remove or comment out the above command and unncomment this to fetch weather for a human-readable location
-#command: """weather.widget/fetch-forecast.py 2>/dev/null --config-file="weather.widget/weather.conf" \
-#    --location="#{location}"
-#"""
+# Config such as API keys and binary locations are in weather.conf
+# Arguments for fetching the weather, like location both provided and autodetected and reverse geocoding
+# are in fetch-forecast.args, one per line. Run fetch-forecast.py -h to see the available arguments.
+command: """weather.widget/fetch-forecast.py 2>/dev/null --config-file="weather.widget/weather.conf" @weather.widget/fetch-forecast.args"""
 
 refreshFrequency: 1800000
 
