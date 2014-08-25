@@ -3,7 +3,7 @@ Made for [Übersicht][u]
 
   [u]: http://tracesof.net/uebersicht/
 
-![The widget in action](./screenshot.png)
+![The widget in action](https://raw.githubusercontent.com/tupton/weather-widget/master/screenshot.png)
 
 ## Notes
 
