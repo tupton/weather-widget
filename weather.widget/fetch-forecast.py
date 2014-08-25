@@ -115,8 +115,8 @@ def get_location_from_args(args, config):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, fromfile_prefix_chars='@')
 
-    parser.add_argument('--auto-detect-location', action='store_true', help="If provided, attempt to detect the location with the `whereami` script, the location of which is provided in a config file.")
-    parser.add_argument('--reverse-geocode', action='store_true', help="If provided, reverse geocode the given location and include it in the JSON forecast. If you provide a human-readable location, this option is ignored and that location is used in the output.")
+    parser.add_argument('--auto-detect-location', action='store_true', help="If provided, attempt to detect the location with the `whereami` script, the location of which is provided in the config file.")
+    parser.add_argument('--reverse-geocode', action='store_true', help="If provided, reverse geocode the given location and include it in the JSON forecast.")
     parser.add_argument('--config-file', '-c', default='weather.conf', help="The file to use for config options, including the forecast.io and Google geocode API keys.")
 
     location_group = parser.add_mutually_exclusive_group()
