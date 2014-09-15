@@ -21,7 +21,6 @@ render: (o) -> """
   """
 
 update: (output, domEl) ->
-  console.log output
   data = JSON.parse(output)
   today = data.daily.data[0]
   currently = data.currently
