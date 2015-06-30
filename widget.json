@@ -1,6 +1,6 @@
 {
   "name": "Weather",
   "description": "A simple weather forcast widget. You will need your own Forecast.io API key and possibly a Google geocoding API key. There are other configurable options; please check the README for details.",
-  "author": "Felix Hageloh"
+  "author": "Felix Hageloh",
   "contributor": "Thomas Upton"
 }
