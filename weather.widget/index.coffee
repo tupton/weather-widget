@@ -74,8 +74,8 @@ style: """
   color: #fff
   font-family: Helvetica Neue
   text-align: center
-  width: 340px
-  margin-left: -160px
+  width: 360px
+  margin-left: -180px
 
   @font-face
     font-family Weather
