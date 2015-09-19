@@ -21,7 +21,11 @@ render: (o) -> """
   """
 
 update: (output, domEl) ->
-  data = JSON.parse(output)
+  return if not output
+  try
+    data = JSON.parse(output)
+  catch
+    return
   today = data.daily.data[0]
   currently = data.currently
   daily = data.daily
