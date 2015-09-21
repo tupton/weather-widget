@@ -6,18 +6,20 @@ command: """weather.widget/fetch-forecast.py 2>/dev/null --config-file="weather.
 refreshFrequency: 1800000
 
 render: (o) -> """
-  <div class="today">
-    <div class="location"></div>
-    <div class="date"></div>
-    <div class="icon"></div>
-    <div class="temp"></div>
-    <div class="summary">
-        <div class="currently"></div>
-        <div class="conditions"></div>
+  <div class="container" style="display:none">
+    <div class="today">
+      <div class="location"></div>
+      <div class="date"></div>
+      <div class="icon"></div>
+      <div class="temp"></div>
+      <div class="summary">
+          <div class="currently"></div>
+          <div class="conditions"></div>
+      </div>
     </div>
+    <div class="forecast"></div>
+    <div class="updated"></div>
   </div>
-  <div class="forecast"></div>
-  <div class="updated"></div>
   """
 
 update: (output, domEl) ->
@@ -32,6 +34,8 @@ update: (output, domEl) ->
   date = @getDate today.time
 
   $domEl = $(domEl)
+
+  $domEl.find('.container').style.display = ''
 
   $domEl.find('.location').text data.formatted_location
   $domEl.find('.date').text @dayMapping[date.getDay()]
