@@ -35,7 +35,7 @@ update: (output, domEl) ->
 
   $domEl = $(domEl)
 
-  $domEl.find('.container').style.display = ''
+  $domEl.find('.container').css('display', '')
 
   $domEl.find('.location').text data.formatted_location
   $domEl.find('.date').text @dayMapping[date.getDay()]
