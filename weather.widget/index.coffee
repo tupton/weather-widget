@@ -89,6 +89,13 @@ style: """
     font-family Weather
     src url(weather.widget/icons.svg) format('svg')
 
+  .container
+    padding: 10px
+    background-color: #333
+    opacity: 0.8
+    border: 1px solid #ccc
+    border-radius: 10px / 5px
+
   .today
     display: inline-block
     text-align: left
