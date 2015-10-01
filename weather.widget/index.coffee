@@ -80,7 +80,7 @@ style: """
   bottom: 20%
   left: 50%
   color: #fff
-  font-family: Helvetica Neue
+  font-family: -apple-system, "San Francisco", "Helvetica Neue"
   text-align: center
   width: 360px
   margin-left: -180px
